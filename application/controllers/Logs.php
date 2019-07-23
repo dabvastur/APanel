@@ -21,7 +21,7 @@ class Logs extends CI_Controller {
  
         // init params
         $params = array();
-        $limit_per_page = 10;
+        $limit_per_page = 20;
         $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $total_records = $this->Logs_model->get_total();
  
@@ -30,10 +30,42 @@ class Logs extends CI_Controller {
             // get current page records
             $params["results"] = $this->Logs_model->get_current_page_records($limit_per_page, $start_index);
              
+
+            /*
+                <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+            */
+            
+
             $config['base_url'] = base_url() . 'logs/index';
             $config['total_rows'] = $total_records;
             $config['per_page'] = $limit_per_page;
             $config["uri_segment"] = 3;
+            $config['full_tag_open'] = '<ul class="pagination">';
+            $config['full_tag_close'] = '</ul>';
+            $config['attributes'] = ['class' => 'page-link'];
+
+            $config['first_tag_open'] = '<li class="page-item">';
+            $config['first_tag_close'] = '</li>';
+            $config['prev_link'] = '&laquo';
+            $config['prev_tag_open'] = '<li class="page-item">';
+            $config['prev_tag_close'] = '</li>';
+            $config['next_link'] = '&raquo';
+            $config['next_tag_open'] = '<li class="page-item">';
+            $config['next_tag_close'] = '</li>';
+            $config['last_tag_open'] = '<li class="page-item">';
+            $config['last_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="page-item active"><a href="#" class="page-link">';
+            $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+            $config['num_tag_open'] = '<li class="page-item">';
+            $config['num_tag_close'] = '</li>';
              
             $this->pagination->initialize($config);
              
@@ -47,66 +79,4 @@ class Logs extends CI_Controller {
         $this->load->view("templates/footer");
     }
      
-    public function custom()
-    {
-        // load db and model
-        $this->load->database();
-        $this->load->model('Logs_model');
-     
-        // init params
-        $params = array();
-        $limit_per_page = 2;
-        $page = ($this->uri->segment(3)) ? ($this->uri->segment(3) - 1) : 0;
-        $total_records = $this->Logs_model->get_total();
-     
-        if ($total_records > 0)
-        {
-            // get current page records
-            $params["results"] = $this->Users->get_current_page_records($limit_per_page, $page*$limit_per_page);
-                 
-            $config['base_url'] = base_url() . 'logs/custom';
-            $config['total_rows'] = $total_records;
-            $config['per_page'] = $limit_per_page;
-            $config["uri_segment"] = 3;
-             
-            // custom paging configuration
-            $config['num_links'] = 2;
-            $config['use_page_numbers'] = TRUE;
-            $config['reuse_query_string'] = TRUE;
-             
-            $config['full_tag_open'] = '<div class="pagination">';
-            $config['full_tag_close'] = '</div>';
-             
-            $config['first_link'] = 'First Page';
-            $config['first_tag_open'] = '<span class="firstlink">';
-            $config['first_tag_close'] = '</span>';
-             
-            $config['last_link'] = 'Last Page';
-            $config['last_tag_open'] = '<span class="lastlink">';
-            $config['last_tag_close'] = '</span>';
-             
-            $config['next_link'] = 'Next Page';
-            $config['next_tag_open'] = '<span class="nextlink">';
-            $config['next_tag_close'] = '</span>';
- 
-            $config['prev_link'] = 'Prev Page';
-            $config['prev_tag_open'] = '<span class="prevlink">';
-            $config['prev_tag_close'] = '</span>';
- 
-            $config['cur_tag_open'] = '<span class="curlink">';
-            $config['cur_tag_close'] = '</span>';
- 
-            $config['num_tag_open'] = '<span class="numlink">';
-            $config['num_tag_close'] = '</span>';
-             
-            $this->pagination->initialize($config);
-                 
-            // build paging links
-            $params["links"] = $this->pagination->create_links();
-        }
-     
-        $this->load->view("templates/header");
-        $this->load->view('logs/logs', $params);
-        $this->load->view("templates/footer");
-    }
 }
