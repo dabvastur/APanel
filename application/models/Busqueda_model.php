@@ -11,9 +11,34 @@ class Busqueda_model extends CI_Model
  
     public function getBusqueda($text) 
     {
-        $this->db->like("Usuario", $text, "both");
-        $this->db->or_like("Cadena", $text, "both");
+        if(is_numeric($text))
+        {
+            $this->db->where("id", $text);
+        }
+        else
+        {
+            $this->db->like("Usuario", $text, "both");
+            $this->db->or_like("Cadena", $text, "both");
+        }
+
         $query = $this->db->get("logs");
+ 
+        if ($query->num_rows() > 0) 
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getBusquedaById($id) 
+    {
+        
+        $this->db->where("USERNAME", $id);
+
+        $query = $this->db->get("players");
  
         if ($query->num_rows() > 0) 
         {

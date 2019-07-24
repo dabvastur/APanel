@@ -31,9 +31,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  </tbody>
 		</table>
 
-		<?php if (isset($links)) { ?>
-                <?php echo $links ?>
-            <?php } ?>
+		<?php if (isset($links)) 
+                { 
+                    echo $links;
+                }
+        ?>
     </div>
   </div>
 </main>
