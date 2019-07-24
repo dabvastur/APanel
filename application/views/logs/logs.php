@@ -5,6 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <main role="main" class="flex-shrink-0">
   <div class="container">
     <div class="contenido">
+        <div class="text-center">
+            <input type="text" name="logBusqueda" id="logBusqueda" class="form-control" placeholder="Buscar por usuario">
+        </div>
         <table class="table table-striped table-dark table-bordered">
            <thead>
                <tr>

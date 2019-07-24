@@ -9,6 +9,7 @@
 	<script src="https://kit.fontawesome.com/73f8fbf722.js"></script>
 
 	<link rel="stylesheet" href="<?php echo base_url();?>application/front-end/css/style.css">
+	
 </head>
 
 <body class="d-flex flex-column h-100">
